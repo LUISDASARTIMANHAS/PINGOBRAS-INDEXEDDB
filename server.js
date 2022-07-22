@@ -52,7 +52,10 @@ const db = require("./src/" + data.database);
  * Client can request raw data using a query parameter
  */
 fastify.get("/", async (request, reply) => {
-  
+  /* 
+  Params is the data we pass to the client
+  - SEO values for front-end UI but not for raw data
+  */
   let params = request.query.raw ? {} : { seo: seo };
 
   // Get the available choices from the database
@@ -106,6 +109,69 @@ fastify.post("/", async (request, reply) => {
   return request.query.raw
     ? reply.send(params)
     : reply.view("/src/pages/index.hbs", params);
+});
+
+/**
+ * Admin endpoint returns log of votes
+ *
+ * Send raw json or the admin handlebars page
+ */
+fastify.get("/logs", async (request, reply) => {
+  let params = request.query.raw ? {} : { seo: seo };
+
+  // Get the log history from the db
+  params.optionHistory = await db.getLogs();
+
+  // Let the user know if there's an error
+  params.error = params.optionHistory ? null : data.errorMessage;
+
+  // Send the log list
+  return request.query.raw
+    ? reply.send(params)
+    : reply.view("/src/pages/admin.hbs", params);
+});
+
+/**
+ * Admin endpoint to empty all logs
+ *
+ * Requires authorization (see setup instructions in README)
+ * If auth fails, return a 401 and the log list
+ * If auth is successful, empty the history
+ */
+fastify.post("/reset", async (request, reply) => {
+  let params = request.query.raw ? {} : { seo: seo };
+
+  /* 
+  Authenticate the user request by checking against the env key variable
+  - make sure we have a key in the env and body, and that they match
+  */
+  if (
+    !request.body.key ||
+    request.body.key.length < 1 ||
+    !process.env.ADMIN_KEY ||
+    request.body.key !== process.env.ADMIN_KEY
+  ) {
+    console.error("Auth fail");
+
+    // Auth failed, return the log data plus a failed flag
+    params.failed = "You entered invalid credentials!";
+
+    // Get the log list
+    params.optionHistory = await db.getLogs();
+  } else {
+    // We have a valid key and can clear the log
+    params.optionHistory = await db.clearHistory();
+
+    // Check for errors - method would return false value
+    params.error = params.optionHistory ? null : data.errorMessage;
+  }
+
+  // Send a 401 if auth failed, 200 otherwise
+  const status = params.failed ? 401 : 200;
+  // Send an unauthorized status code if the user credentials failed
+  return request.query.raw
+    ? reply.status(status).send(params)
+    : reply.status(status).view("/src/pages/admin.hbs", params);
 });
 
 // Run the server and report out to the logs

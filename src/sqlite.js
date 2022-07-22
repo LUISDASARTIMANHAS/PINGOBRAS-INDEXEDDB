@@ -7,6 +7,8 @@
 // Utilities we need
 const fs = require("fs");
 
+
+
 // Initialize the database
 const dbFile = "./.data/choices.db";
 const exists = fs.existsSync(dbFile);
