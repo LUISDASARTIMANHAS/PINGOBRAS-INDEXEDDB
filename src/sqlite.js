@@ -37,7 +37,7 @@ dbWrapper
 
         // Add default choices to table
         await db.run(
-          "INSERT INTO Choices (language, picks) VALUES ('HTML', 0), ('JavaScript', 0), ('CSS', 0)"
+          "INSERT INTO Choices (language, picks) VALUES ('tp', 0), ('tx', 0), ('tz', 0)"
         );
 
         // Log can start empty - we'll insert a new record whenever the user chooses a poll option
