@@ -12,6 +12,18 @@ if (navigator.storage && navigator.storage.estimate) {
   const remaining = quota.quota - quota.usage;
   console.log(`Você pode gravar até ${remaining} bytes mais.`);
 }
+request.onerror = function(abilitar) {
+  alert("Você não habilitou minha web app para usar IndexedDB?!");
+};
+request.onsuccess = function(event) {
+  db = request.result;
+};
+
+db.onerror = function(error) {
+  // Função genérica para tratar os erros de todos os requests desse banco!
+  alert("Database error: " + error.target.errorCode);
+};
+
 
 const DadosClientes = [
   { ssn: "444-44-4444", nome: "Bill", idade: 35, email: "bill@company.com" },
@@ -19,19 +31,12 @@ const DadosClientes = [
 ];
 
 var db;
-var connection =indexedDB.open('Clients',1)
-var request = indexedDB.open("Clients",1);
+var request = indexedDB.open("PINGOBRASdb",1);
+var transaction = db.transaction(["clientes"], "readwrite");
 
-request.onerror = function(event) {
-  alert("Você não habilitou minha web app para usar IndexedDB?!");
-};
-request.onsuccess = function(event) {
-  db = request.result;
-};
-
-
-request.onerror = function(event) {
-  // Tratar erros.
+request.onerror = function(error) {
+  // Função genérica para tratar os erros de todos os requests desse banco!
+  alert("Database error: " + error.target.errorCode);
 };
 request.onupgradeneeded = function(event) {
   var db = event.target.result;
@@ -57,14 +62,4 @@ request.onupgradeneeded = function(event) {
       clientesObjectStore.add(DadosClientes[i]);
     }
   }
-};
-
-
-connection.onsuccess = (e) => {
-var database = e.target.result;
-var transaction = database.transaction(['Clients']); 
-var objectStore = transaction.objectStore('Clients');
-var index = objectStore.index('Client'); var request = index.get("Chrome");
-request.onsuccess = (e) = console.log(e.target.result);
-request.onerror= (e) => console.error(e.target.result);
 };
