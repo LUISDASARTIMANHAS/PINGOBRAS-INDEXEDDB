@@ -1,83 +1,49 @@
-const stats = document.getElementById("stats")
+// Let us open our database
+const DBOpenRequest = window.indexedDB.open("toDoList", 4);
+const note = document.getElementById("stats")
 
-if (!window.indexedDB) {
-    window.alert("Seu navegador não suporta uma versão estável do IndexedDB. Alguns recursos não estarão disponíveis.");
-}
+// these two event handlers act on the IDBDatabase object,
+// when the database is opened successfully, or not
+DBOpenRequest.onerror = (event) => { note.innerHTML += '<li>Error loading database.</li>'; };
 
+DBOpenRequest.onsuccess = (event) => {
+  note.innerHTML += '<li>Banco de dados Iniciado!</li>';
 
-var db;
-const nomeAlert = prompt("Insira seu nome global",)
-stats.innerHTML = db
-request.onsuccess = function(event) {
-  db = request.result;
+  // store the result of opening the database in the db
+  // variable. This is used a lot later on
+ let db = DBOpenRequest.result;
+
+  // Run the displayData() function to populate the task
+  // list with all the to-do list data already in the IDB
+  
 };
 
-// Este evento é implementado somente em navegadores mais recentes
-request.onupgradeneeded = function(event) {
-  var db = event.target.result;
+// This event handles the event whereby a new version of
+// the database needs to be created Either one has not
+// been created before, or a new version number has been
+// submitted via the window.indexedDB.open line above
 
-  // cria um objectStore para esse banco
-  var objectStore = db.createObjectStore("nome", { keyPath: "minhaChave" });
-};
+DBOpenRequest.onupgradeneeded = (event) => {
+  const db = event.target.result;
 
-// Isso é o que os dados de nossos clientes será.
-const DadosClientes = [
-  { ssn: "444-44-4444", nome: "Bill", idade: 35, },
-  { ssn: "555-55-5555", nome: "Donna", idade: 32, },
-  { ssn: "204-55-2004", nome: nomeAlert, }
-];
-const dbName = "clientes";
-
-  // Cria um objectStore para conter a informação sobre nossos clientes. Nós vamos
-  // usar "ssn" como key path porque sabemos que é único;
-  var objectStore = db.createObjectStore("Storage", { keyPath: "ssn" });
-
-  // Cria um índice para buscar clientes pelo nome. Podemos ter nomes
-  // duplicados, então não podemos usar como índice único.
-  objectStore.createIndex("nome", "nome", { unique: false });
-
-
-  // Usando transação oncomplete para afirmar que a criação do objectStore
-  // é terminada antes de adicionar algum dado nele.
-  objectStore.transaction.oncomplete = function(event) {
-    // Armazenando valores no novo objectStore.
-    var StorageObjectStore = db.transaction("Storage", "readwrite").objectStore("clientes");
-    for (var i in DadosClientes) {
-      StorageObjectStore.add(DadosClientes[i]);
-    }
-  }
-
-    var db = event.target.result;
-
-    // Criando outro objeto chamado "names" com o autoIncrement setado.
-    var objStore = db.createObjectStore("names", { autoIncrement : true });
-
-    // Porque "names" tem o the key generator, a chave para o nome é gerada automaticamente.
-    // Os registros adicionados serão assim:
-    // key : 1 => value : "Bill"
-    // key : 2 => value : "Donna"
-    for (var i in DadosClientes) {
-        objStore.add(DadosClientes[i].nome);
-    }
-
-var transaction = db.transaction(["Storage"], "readwrite");
-// Nota: Implementações mais antigas usam uma versão IDBTransaction.READ_WRITE antiga em vez de "readwrite".
-// Então, para suportar versões antigas, escreva:
-// var transaction = db.transaction(["clientes"], IDBTransaction.READ_WRITE);
-// Faz algo após a inserção dos dados.
-transaction.oncomplete = function(event) {
-  alert("Pronto!");
-};
-
-transaction.onerror = function(event) {
-  // Não esquecer de tratar os erros!
-};
-
-var objectStore = transaction.objectStore("Storage");
-for (var i in DadosClientes) {
-  var request = objectStore.add(DadosClientes[i]);
-  request.onsuccess = function(event) {
-    // event.target.result == DadosClientes[i].ssn;
+  db.onerror = (event) => {
+    note.innerHTML += '<li>Error loading database.</li>';
   };
-}
-stats.innerHTML = request
+
+  // Create an objectStore for this database using
+  // IDBDatabase.createObjectStore
+
+  const objectStore = db.createObjectStore("toDoList", { keyPath: "taskTitle" });
+
+  // define what data items the objectStore will contain
+
+  objectStore.createIndex("hours", "hours", { unique: false });
+  objectStore.createIndex("minutes", "minutes", { unique: false });
+  objectStore.createIndex("day", "day", { unique: false });
+  objectStore.createIndex("month", "month", { unique: false });
+  objectStore.createIndex("year", "year", { unique: false });
+
+  objectStore.createIndex("notified", "notified", { unique: false });
+
+  note.innerHTML += '<li>Object store created.</li>';
+};
