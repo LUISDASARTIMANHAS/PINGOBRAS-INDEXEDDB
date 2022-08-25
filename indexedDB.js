@@ -9,14 +9,12 @@ var request = indexedDB.open("DBteste");
 request.onerror = function(event) {
   alert("Você não habilitou minha web app para usar IndexedDB?!");
 };
+const nomeAlert = prompt("Insira seu nome global",)
 stats.innerHTML = db
 request.onsuccess = function(event) {
   db = request.result;
 };
-db.onerror = function(event) {
-  // Função genérica para tratar os erros de todos os requests desse banco!
-  alert("Database error: " + event.target.errorCode);
-};
+
 // Este evento é implementado somente em navegadores mais recentes
 request.onupgradeneeded = function(event) {
   var db = event.target.result;
@@ -26,8 +24,9 @@ request.onupgradeneeded = function(event) {
 };
 // Isso é o que os dados de nossos clientes será.
 const DadosClientes = [
-  { ssn: "444-44-4444", nome: "Bill", idade: 35, email: "bill@company.com" },
-  { ssn: "555-55-5555", nome: "Donna", idade: 32, email: "donna@home.org" }
+  { ssn: "444-44-4444", nome: "Bill", idade: 35, },
+  { ssn: "555-55-5555", nome: "Donna", idade: 32, },
+  { ssn: "204-55-2004", nome: nomeAlert, }
 ];
 const dbName = "clientes";
 
@@ -47,9 +46,6 @@ request.onupgradeneeded = function(event) {
   // duplicados, então não podemos usar como índice único.
   objectStore.createIndex("nome", "nome", { unique: false });
 
-  // Cria um índice para buscar clientes por email. Queremos ter certeza
-  // que não teremos 2 clientes com o mesmo e-mail;
-  objectStore.createIndex("email", "email", { unique: true });
 
   // Usando transação oncomplete para afirmar que a criação do objectStore
   // é terminada antes de adicionar algum dado nele.
@@ -62,7 +58,7 @@ request.onupgradeneeded = function(event) {
   }
 };
 // Abrindo o indexedDB.
-var request = indexedDB.open(dbName, 3);
+var request = indexedDB.open(dbName, 1);
 
 request.onupgradeneeded = function (event) {
 
@@ -99,4 +95,4 @@ for (var i in DadosClientes) {
     // event.target.result == DadosClientes[i].ssn;
   };
 }
-stats.innerHTML = db
+stats.innerHTML = request
