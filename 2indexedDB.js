@@ -4,7 +4,7 @@ const note = document.getElementById("stats")
 
 // these two event handlers act on the IDBDatabase object,
 // when the database is opened successfully, or not
-DBOpenRequest.onerror = (event) => { note.innerHTML += '<li>Error loading database.</li>'; };
+DBOpenRequest.onerror = (event) => { note.innerHTML += '<li>ERRO DE CARREGAMENTO DO BANCO DE DADOS.</li>'; };
 
 DBOpenRequest.onsuccess = (event) => {
   note.innerHTML += '<li>Banco de dados Iniciado!</li>';
@@ -15,7 +15,6 @@ DBOpenRequest.onsuccess = (event) => {
 
   // Run the displayData() function to populate the task
   // list with all the to-do list data already in the IDB
-  
 };
 
 // This event handles the event whereby a new version of
@@ -25,14 +24,13 @@ DBOpenRequest.onsuccess = (event) => {
 
 DBOpenRequest.onupgradeneeded = (event) => {
   const db = event.target.result;
-
   db.onerror = (event) => {
     note.innerHTML += '<li>Error loading database.</li>';
   };
 
   // Create an objectStore for this database using
   // IDBDatabase.createObjectStore
-
+ // const objectStore = db.transaction('toDoList', 'readwrite').objectStore('toDoList');
   const objectStore = db.createObjectStore("toDoList", { keyPath: "taskTitle" });
 
   // define what data items the objectStore will contain
@@ -45,5 +43,7 @@ DBOpenRequest.onupgradeneeded = (event) => {
 
   objectStore.createIndex("notified", "notified", { unique: false });
 
-  note.innerHTML += '<li>Object store created.</li>';
-};
+  note.innerHTML += '<li>DADOS PARA O BANCO DE DADOS CRIADOS E ADICIONADOS.</li>';
+  };
+let db = DBOpenRequest.result;
+const objectStore = db.transaction('toDoList', 'readwrite').objectStore('toDoList');
