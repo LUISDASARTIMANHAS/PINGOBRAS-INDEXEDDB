@@ -14,12 +14,12 @@ if(!SQL){
 SQL.transaction(function(transaction){
     // criar a tabela   
     statsSQL.innerHTML += '<li>Tentando Criar Tabela!</li>';
-    transaction.createSql("CREATE TABLE CLIENTS (id REAL UNIQUE, nome TEXT, timestamp REAL)", [[]], "FLY", "BY WARE");
+    transaction.createSql("CREATE TABLE CLIENTS (id REAL UNIQUE, nome TEXT, timestamp REAL) ");
 
     // num caso de verdade, iríamos incluir callbacks para verificar que deu tudo certo mas para não estender demais o código vou pular esta parte...
     // inserir dados
     // obs - repare que usamos um "statement preparado", colocamos interrogações no lugar das variáveis e as listamos em um array no segundo parametro, fazendo bind delas
-    transaction.executeSql("INSERT INTO CLIENTS (nome, timestamp) values(?, ?)", [['Alex', new Date().getTime()]], "FLY", "BY WARE");
+    transaction.executeSql("INSERT INTO CLIENTS (nome, timestamp) values(luis, 11102004)");
 });
 
 // de qualquer forma, sempre teste que o objeto foi instanciado direito antes de usá-lo
