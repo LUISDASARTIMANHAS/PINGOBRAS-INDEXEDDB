@@ -8,7 +8,7 @@ const statsSQL = document.getElementById("statsSQL")
 // deverá mostrar "Database"
 console.log(SQL);
 if(!SQL){
-    alert('deu pau banco de dados!');
+    alert('deu pau no banco de dados!');
 }
 
 SQL.transaction(function(transaction){
