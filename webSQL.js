@@ -4,18 +4,22 @@ var megabytes = bytes * 10
 var SQL = openDatabase("MYSQL", "1.0", "MYSQL DA PINGOBRAS", megabytes);
 const statsSQL = document.getElementById("statsSQL")
 
+
 // deverá mostrar "Database"
 console.log(SQL);
+if(!SQL){
+    alert('deu pau banco de dados!');
+}
 
 SQL.transaction(function(transaction){
     // criar a tabela   
-    alert("tentando criar tabela")
-    transaction.executeSQL("CREATE TABLE CLIENTS (id REAL UNIQUE, nome TEXT, timestamp REAL)", [[]], "FLY", "BY WARE");
+    statsSQL.innerHTML += '<li>Tentando Criar Tabela!</li>';
+    transaction.createSql("CREATE TABLE CLIENTS (id REAL UNIQUE, nome TEXT, timestamp REAL)", [[]], "FLY", "BY WARE");
 
     // num caso de verdade, iríamos incluir callbacks para verificar que deu tudo certo mas para não estender demais o código vou pular esta parte...
     // inserir dados
     // obs - repare que usamos um "statement preparado", colocamos interrogações no lugar das variáveis e as listamos em um array no segundo parametro, fazendo bind delas
-    transaction.executeSQL("INSERT INTO CLIENTS (nome, timestamp) values(?, ?)", [['Alex', new Date().getTime()]], "FLY", "BY WARE");
+    transaction.executeSql("INSERT INTO CLIENTS (nome, timestamp) values(?, ?)", [['Alex', new Date().getTime()]], "FLY", "BY WARE");
 });
 
 // de qualquer forma, sempre teste que o objeto foi instanciado direito antes de usá-lo
@@ -40,6 +44,3 @@ SQL.transaction(function(transaction){
         }
     );
 });
-if(!SQL){
-    alert('deu pau!');
-}
