@@ -8,28 +8,22 @@ const statsSQL = document.getElementById("statsSQL")
 console.log(SQL);
 
 SQL.transaction(function(transaction){
-    // criar a tabela
-    transaction.executeSql("CREATE TABLE Clients (id REAL UNIQUE, nome TEXT, timestamp REAL)", [[]], "teste", "f");
+    // criar a tabela   
+    alert("tentando criar tabela")
+    transaction.executeSQL("CREATE TABLE CLIENTS (id REAL UNIQUE, nome TEXT, timestamp REAL)", [[]], "FLY", "BY WARE");
 
     // num caso de verdade, iríamos incluir callbacks para verificar que deu tudo certo mas para não estender demais o código vou pular esta parte...
 
     // inserir dados
     // obs - repare que usamos um "statement preparado", colocamos interrogações no lugar das variáveis e as listamos em um array no segundo parametro, fazendo bind delas
-    transaction.executeSql("INSERT INTO CLients (nome, timestamp) values(?, ?)", [['Alex', new Date().getTime()]], "teste", "f");
+    transaction.executeSQL("INSERT INTO CLIENTS (nome, timestamp) values(?, ?)", [['Alex', new Date().getTime()]], "FLY", "BY WARE");
 });
 
 // de qualquer forma, sempre teste que o objeto foi instanciado direito antes de usá-lo
-if(!SQL){
-    alert('deu pau!');
-}
-
-
-
-
 
 SQL.transaction(function(transaction){
     transaction.executeSql(
-        "SELECT * FROM Teste",
+        "SELECT * FROM CLIENTS",
         [[]],
         function(transaction, result){
             console.log('deu certo!');
@@ -47,3 +41,6 @@ SQL.transaction(function(transaction){
         }
     );
 });
+if(!SQL){
+    alert('deu pau!');
+}
