@@ -1,12 +1,15 @@
 // o método OpenDatabase precisa de 4 parametros; o nome do banco de dados, a versão, a descrição e o tamanho estimado (em bytes)
-var SQL = openDatabase("Teste", "1.0", "Teste Web SQL Database", 200000);
-
+var bytes = 1024
+var megabytes = bytes * 10
+var SQL = openDatabase("Teste", "1.0", "Teste", megabytes);
+const statsSQL = document.getElementById("statsSQL")
 
 // deverá mostrar "Database"
 console.log(SQL);
+
 SQL.transaction(function(transaction){
     // criar a tabela
-    transaction.executeSql("CREATE TABLE Teste (id REAL UNIQUE, nome TEXT, timestamp REAL)", [["alex,"]], "teste", "f");
+    transaction.executeSql("CREATE TABLE Teste (id REAL UNIQUE, nome TEXT, timestamp REAL)", [["alex", new Date().getTime()]], "teste", "f");
 
     // num caso de verdade, iríamos incluir callbacks para verificar que deu tudo certo mas para não estender demais o código vou pular esta parte...
 
@@ -31,6 +34,7 @@ SQL.transaction(function(transaction){
         function(transaction, result){
             console.log('deu certo!');
             console.log(result);
+            statsSQL.innerHTML = result
 
            for(var i = 0; i < result.rows.length; i++){
                console.log(result.rows.item(i)[['nome']]);
@@ -39,6 +43,7 @@ SQL.transaction(function(transaction){
         function(transaction, error){
             console.log('deu pau!');
             console.log(error);
+          statsSQL.innerHTML = error
         }
     );
 });
