@@ -1,5 +1,5 @@
 const stats = document.getElementById("stats")
-
+try{
 if (!window.indexedDB) {
     window.alert("Seu navegador não suporta uma versão estável do IndexedDB. Alguns recursos não estarão disponíveis.");
 }
@@ -96,3 +96,6 @@ for (var i in DadosClientes) {
   };
 }
 stats.innerHTML = request
+}catch (err){
+  alert(err);
+}
