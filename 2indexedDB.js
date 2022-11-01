@@ -1,3 +1,15 @@
+if (!window.indexedDB) {
+    window.alert("Seu navegador não suporta uma versão estável do IndexedDB. Alguns recursos não estarão disponíveis.");
+}
+
+  alert("Você não habilitou minha web app para usar IndexedDB?!");
+const nomeAlert = prompt("Insira seu nome global",)
+stats.innerHTML = db
+request.onsuccess = function(event) {
+  db = request.result;
+};
+
+
 // Let us open our database
 const DBOpenRequest = window.indexedDB.open("toDoList", 4);
 const note = document.getElementById("stats")
