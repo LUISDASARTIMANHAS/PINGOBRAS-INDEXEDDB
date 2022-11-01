@@ -40,13 +40,13 @@ DBOpenRequest.onupgradeneeded = (event) => {
   const objectStore = db.createObjectStore("DADOSCAD", { keyPath: "taskTitle" });
 
   // define what data items the objectStore will contain
-  objectStore.createIndex("hours", "hours", { unique: false });
-  objectStore.createIndex("minutes", "minutes", { unique: false });
-  objectStore.createIndex("day", "day", { unique: false });
-  objectStore.createIndex("month", "month", { unique: false });
-  objectStore.createIndex("year", "year", { unique: false });
+  objectStore.createIndex("HORAS", "DATAH", { unique: false });
+  objectStore.createIndex("MINUTOS", "DATAM", { unique: false });
+  objectStore.createIndex("DIA", "DATADIA", { unique: false });
+  objectStore.createIndex("MES", "DATAMES", { unique: false });
+  objectStore.createIndex("ANO", "DATAANO", { unique: false });
 
-  objectStore.createIndex("notified", "notified", { unique: false });
+  objectStore.createIndex("NOTIFICADO", "DATANOTIFY", { unique: false });
  
   note.innerHTML += '<li azul yellow>TABELA DE DADOS PARA CADASTRO CRIADA .</li>';
   note.innerHTML += '<li azul yellow>DADOS PARA O BANCO DE DADOS CRIADOS E ADICIONADOS.</li>';
