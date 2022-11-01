@@ -2,10 +2,11 @@ if (!window.indexedDB) {
     window.alert("Seu navegador não suporta uma versão estável do IndexedDB. Alguns recursos não estarão disponíveis.");
 }
 
+const inpName = document.getElementById("nameGB")
 // Let us open our database
-const DBOpenRequest = window.indexedDB.open("CLIENTS", 1);
+const DBOpenRequest = window.indexedDB.open("PINGOBRASDB", 1);
 const note = document.getElementById("stats")
-const nomeAlert = prompt("Insira seu nome global",)
+const name = inpName.value
 
 // these two event handlers act on the IDBDatabase object,
 // when the database is opened successfully, or not
@@ -32,6 +33,7 @@ DBOpenRequest.onupgradeneeded = (event) => {
     note.innerHTML += '<li vermelho yellow>Error loading database.</li>';
   };
 
+  
   // Create an objectStore for this database using
   // IDBDatabase.createObjectStore
  // const objectStore = db.transaction('toDoList', 'readwrite').objectStore('toDoList');
@@ -46,8 +48,8 @@ DBOpenRequest.onupgradeneeded = (event) => {
 
   objectStore.createIndex("notified", "notified", { unique: false });
  
-  note.innerHTML += '<li azul yellow>TABELA DE DADOS PARA CADASTRO .</li>';
+  note.innerHTML += '<li azul yellow>TABELA DE DADOS PARA CADASTRO CRIADA .</li>';
   note.innerHTML += '<li azul yellow>DADOS PARA O BANCO DE DADOS CRIADOS E ADICIONADOS.</li>';
   };
 let db = DBOpenRequest.result;
-const objectStore = db.transaction('DADOSCAD', 'readwrite').objectStore('toDoList');
+const objectStore = db.transaction('DADOSCAD', 'readwrite').objectStore('DADOSCAD');
