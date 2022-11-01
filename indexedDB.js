@@ -13,7 +13,7 @@ const name = inpName.value
 DBOpenRequest.onerror = (event) => { note.innerHTML += '<li vermelho yellow>ERRO DE CARREGAMENTO DO BANCO DE DADOS.</li>'; };
 
 DBOpenRequest.onsuccess = (event) => {
-  note.innerHTML += '<li verde yellow>Banco de dados Iniciado!</li>';
+  note.innerHTML += '<li verde yellow>BANCO DE DADOS INICIADO!</li>';
 
   // store the result of opening the database in the db
   // variable. This is used a lot later on
