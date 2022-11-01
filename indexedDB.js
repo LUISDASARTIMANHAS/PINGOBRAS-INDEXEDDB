@@ -2,17 +2,10 @@ if (!window.indexedDB) {
     window.alert("Seu navegador não suporta uma versão estável do IndexedDB. Alguns recursos não estarão disponíveis.");
 }
 
-  alert("Você não habilitou minha web app para usar IndexedDB?!");
-const nomeAlert = prompt("Insira seu nome global",)
-stats.innerHTML = db
-request.onsuccess = function(event) {
-  db = request.result;
-};
-
-
 // Let us open our database
-const DBOpenRequest = window.indexedDB.open("toDoList", 4);
+const DBOpenRequest = window.indexedDB.open("CLIENTS", 1);
 const note = document.getElementById("stats")
+const nomeAlert = prompt("Insira seu nome global",)
 
 // these two event handlers act on the IDBDatabase object,
 // when the database is opened successfully, or not
@@ -24,7 +17,6 @@ DBOpenRequest.onsuccess = (event) => {
   // store the result of opening the database in the db
   // variable. This is used a lot later on
  let db = DBOpenRequest.result;
-
   // Run the displayData() function to populate the task
   // list with all the to-do list data already in the IDB
 };
