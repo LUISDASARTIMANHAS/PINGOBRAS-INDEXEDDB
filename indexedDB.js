@@ -9,10 +9,10 @@ const nomeAlert = prompt("Insira seu nome global",)
 
 // these two event handlers act on the IDBDatabase object,
 // when the database is opened successfully, or not
-DBOpenRequest.onerror = (event) => { note.innerHTML += '<li>ERRO DE CARREGAMENTO DO BANCO DE DADOS.</li>'; };
+DBOpenRequest.onerror = (event) => { note.innerHTML += '<li vermelho yellow>ERRO DE CARREGAMENTO DO BANCO DE DADOS.</li>'; };
 
 DBOpenRequest.onsuccess = (event) => {
-  note.innerHTML += '<li>Banco de dados Iniciado!</li>';
+  note.innerHTML += '<li verde yellow>Banco de dados Iniciado!</li>';
 
   // store the result of opening the database in the db
   // variable. This is used a lot later on
@@ -29,16 +29,15 @@ DBOpenRequest.onsuccess = (event) => {
 DBOpenRequest.onupgradeneeded = (event) => {
   const db = event.target.result;
   db.onerror = (event) => {
-    note.innerHTML += '<li>Error loading database.</li>';
+    note.innerHTML += '<li vermelho yellow>Error loading database.</li>';
   };
 
   // Create an objectStore for this database using
   // IDBDatabase.createObjectStore
  // const objectStore = db.transaction('toDoList', 'readwrite').objectStore('toDoList');
-  const objectStore = db.createObjectStore("toDoList", { keyPath: "taskTitle" });
+  const objectStore = db.createObjectStore("DADOSCAD", { keyPath: "taskTitle" });
 
   // define what data items the objectStore will contain
-
   objectStore.createIndex("hours", "hours", { unique: false });
   objectStore.createIndex("minutes", "minutes", { unique: false });
   objectStore.createIndex("day", "day", { unique: false });
@@ -46,8 +45,9 @@ DBOpenRequest.onupgradeneeded = (event) => {
   objectStore.createIndex("year", "year", { unique: false });
 
   objectStore.createIndex("notified", "notified", { unique: false });
-
-  note.innerHTML += '<li>DADOS PARA O BANCO DE DADOS CRIADOS E ADICIONADOS.</li>';
+ 
+  note.innerHTML += '<li azul yellow>TABELA DE DADOS PARA CADASTRO .</li>';
+  note.innerHTML += '<li azul yellow>DADOS PARA O BANCO DE DADOS CRIADOS E ADICIONADOS.</li>';
   };
 let db = DBOpenRequest.result;
-const objectStore = db.transaction('toDoList', 'readwrite').objectStore('toDoList');
+const objectStore = db.transaction('DADOSCAD', 'readwrite').objectStore('toDoList');
